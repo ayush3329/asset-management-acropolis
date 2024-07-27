@@ -237,23 +237,43 @@ export const getAllAsset = async(req:Request<TgetAll>, res:Response)=>{
         })
         if(!allAsset) return res.status(402).json({success: false, msg: "Unable to fetch asset"});
         let _allAsset = allAsset.toObject();
-        let countofDiffenetAsset: { [key: string]: number } = {};
+        let countofDiffenetAsset: { [key: string]: number[] } = {};
         
         _allAsset.asset = _allAsset.asset.map((asset: any) => {
             const { departmentId, ...rest } = asset;
             if (countofDiffenetAsset[rest.type]) {
-                countofDiffenetAsset[rest.type]++;
+                countofDiffenetAsset[rest.type][0]++;
+                if(!asset.vacant) countofDiffenetAsset[rest.type][1]++; 
             } else {
-                countofDiffenetAsset[rest.type] = 1;
-                rest.assignedToDept = rest.assignedToDept.name;
+                countofDiffenetAsset[rest.type] = [1, 0];
+                // console.log(asset.vacant)
+                if(!asset.vacant) countofDiffenetAsset[rest.type][1]++; 
+                
             }
             return {
                 ...rest,
-                department_name: departmentId.name
+                department_name: departmentId.name,
+                assignedToDept: rest.assignedToDept.name
+                
             };
         });
         
-        return res.status(200).json({success: true, msg: "Assets fetched successfully", data: {..._allAsset, countofDiffenetAsset}})
+        console.log(countofDiffenetAsset);
+
+        let assetMetaData = [];
+        
+        const keys = Object.keys(countofDiffenetAsset);
+
+        for(let i = 0; i<keys.length; i++){
+            assetMetaData.push({
+                name: keys[i],
+                total: countofDiffenetAsset[keys[i]][0],
+                assigned: countofDiffenetAsset[keys[i]][1],
+            })
+        }
+
+
+        return res.status(200).json({success: true, msg: "Assets fetched successfully", data: {..._allAsset, assetMetaData}})
         
 
     } catch(e){
@@ -287,7 +307,7 @@ export const getAssetDetail = async(req:Request, res:Response)=>{
         if(!deptId || !asset_type) return res.status(401).json({success: false, msg: "Please fill all details"});
         
         const assets = await asset.find({ departmentId: deptId, type: asset_type });
-        return res.status(200).json({success: true, msg: `successfully fetched detail of ${asset_type}`,data: {...assets}})
+        return res.status(200).json({success: true, msg: `successfully fetched detail of ${asset_type}`,data: [...assets]})
 
 
     } catch(e){
