@@ -17,7 +17,7 @@ const Physical = new mongoose.Schema({
     },
     pic: {
         type: String,
-        required: true
+        default: ""
     }, 
     idle: {
         type: Boolean,
@@ -27,7 +27,7 @@ const Physical = new mongoose.Schema({
     assignedToDept: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "department",   
-        default: `$departmentId`
+        required: "true"
     }
 });
 
