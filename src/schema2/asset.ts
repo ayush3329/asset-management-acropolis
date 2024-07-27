@@ -1,39 +1,39 @@
 import mongoose from "mongoose";
 
-const Physical = new mongoose.Schema({
-    name: {
+const Asset = new mongoose.Schema({
+    type: { //truck, bulldozer, driller etc
         type: String,
         required: true
+    },
+    uniqueId: {
+        type: String,
+        required: true,
+        unique: true
     },
     departmentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "department",
         required: true
     },
-    quantity: {
-        
-    },
     createdAt: {
         type: Date,
         default: Date.now(),
         required: true
     },
-    pic: {
-        type: String,
-        default: ""
-    }, 
-    idle: {
+    vacant: {
         type: Boolean,
         required: true,
         default: true
     }, 
     assignedToDept: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "department",   
-        required: "true"
+        ref: "department",  
+        default: function() {
+            return this.departmentId;
+        }
     }
 });
 
 
 
-export const physical = mongoose.model("physical", Physical);
+export const asset = mongoose.model("asset", Asset);

@@ -9,7 +9,7 @@ const Issue_Raised = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verifyed: {
+    verified: {
         type: Boolean,
         default: false
     },

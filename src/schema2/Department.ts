@@ -5,10 +5,6 @@ const Department = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true
@@ -17,9 +13,18 @@ const Department = new mongoose.Schema({
         type: String,
         required: true
     },
+    total_asset: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    typeofasset: [{
+        type: String, //truck, bus, driller, bus
+        unique: true,
+    }],
     asset: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "physical",
+        ref: "asset",
         required: true
     }],
     projectId: [{
