@@ -35,7 +35,7 @@ const Department = new mongoose.Schema({
     Members: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "user"
+        ref: "department_user"
     }]
 })
 
