@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const Digital = new mongoose.Schema({
     type: {
         type: String,
-        enum: ["video", "image", "files"],
         required: true
     },
     name: {
