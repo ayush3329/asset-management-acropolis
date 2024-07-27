@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const Physical = new mongoose.Schema({
     name: {
         type: String,
-        enum: ["truck", "bulldozer", "jcb", "crane", "road-roller"],
         required: true
     },
     departmentId: {
