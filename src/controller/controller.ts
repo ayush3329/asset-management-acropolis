@@ -2,8 +2,8 @@
 
 import { Request, Response } from "express";
 import { Tsignup } from "../Types/types";
-import { Puser } from "../schema/Public User/public-user";
-import { Duser } from "../schema/Department User/department_user";
+import { Puser } from "../schema2/Public User/public-user";
+import { Duser } from "../schema2/Department User/department_user";
 import bcrypt from "bcrypt"
 import jwt, { Secret } from "jsonwebtoken";
 import { department } from "../schema2/Department";
